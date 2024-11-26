@@ -96,11 +96,11 @@ def arima(x, p,d,q,h):
 
     fut = np.zeros(h)
     ztf = np.hstack([zt,np.zeros(h)])
-    ztf[-h] = ps.dot(np.array([zt[-i] for i in range(1,p+1)])) +th.dot(np.array([e[-i] for i in range(1,q+1)]))
-    fut[0] = y[-1]+ztf[-h]
+    ztf[len(zt)] = ps.dot(np.array([zt[-i] for i in range(1,p+1)])) +th.dot(np.array([e[-i] for i in range(1,q+1)]))
+    fut[0] = y[-1]+ztf[len(zt)]
     
     for i in range(1,h):
-        ar_term = ps.dot(np.array([ztf[-(i+j)] for j in range(1, p+1)])) if p > 0 else 0
+        ar_term = ps.dot(np.array([ztf[len(zt)-j+i] for j in range(1, p+1)])) 
         ztf[len(zt) + i] = ar_term 
         fut[i] = y[-1] + np.sum(ztf[len(zt):len(zt) + i + 1])
 
