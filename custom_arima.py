@@ -66,7 +66,7 @@ def arima(x, p,d,q,h):
     
     constraints = (
         {'type':'ineq', 'fun': lambda params:1-abs(params[p])},
-        {'type':'ineq', 'fun': lambda params:1-abs(params[p:q])},
+        {'type':'ineq', 'fun': lambda params:1-abs(params[p:p+q])},
         {'type':'ineq', 'fun': lambda params:abs(params[-1])}
     
     )
