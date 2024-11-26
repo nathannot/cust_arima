@@ -94,18 +94,23 @@ def arima(x, p,d,q,h):
     for t in range(1,len(y)):
         yt[t] = y[t-1] +zt1[t]
 
-    fut = np.zeros(h)
-    ztf = np.hstack([zt,np.zeros(h)])
-    ztf[len(zt)] = ps.dot(np.array([zt[-i] for i in range(1,p+1)])) +th.dot(np.array([e[-i] for i in range(1,q+1)]))
-    fut[0] = y[-1]+ztf[len(zt)]
-    
-    for i in range(1,h):
-        ar_term = ps.dot(np.array([ztf[len(zt)-j+i] for j in range(1, p+1)])) 
-        ztf[len(zt) + i] = ar_term 
-        fut[i] = y[-1] + np.sum(ztf[len(zt):len(zt) + i + 1])
+    np.random.seed(1)
 
-    return yt, fut
-result = []
+    fut = np.zeros(h)  
+    ztf = np.hstack([zt, np.zeros(h)])  
+    residual_variance = np.var(e) 
+    future_residuals = np.random.normal(0, np.sqrt(residual_variance), size=h) 
+    ztf[len(zt)] = ps.dot(np.array([zt[-i] for i in range(1,p+1)])) +th.dot(np.array([e[-i] for i in range(1,q+1)]))
+    fut[0] = y[-1]+ztf[len(zt)]+future_residuals[0]
+    
+        
+    for i in range(1,h):
+    ar_term = ps.dot(np.array([ztf[len(zt)-j+i] for j in range(1, p+1)])) 
+    ma_term = th.dot([future_residuals[i - j] for j in range(q)]) 
+    ztf[len(zt) + i] = ar_term + ma_term
+    fut[i] = y[-1] + np.sum(ztf[len(zt):len(zt) + i + 1])
+return yt, fut
+
 test = x[-h:]
 y = x[:-h]
 st.write('Select parameters for ARIMA model, if unsure leave default')
