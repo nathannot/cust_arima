@@ -109,7 +109,7 @@ def arima(x, p,d,q,h):
         ztf[len(zt) + i] = ar_term + ma_term
         fut[i] = y[-1] + np.sum(ztf[len(zt):len(zt) + i + 1])
         
-return yt, fut
+    return yt, fut
 
 test = x[-h:]
 y = x[:-h]
