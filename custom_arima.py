@@ -107,7 +107,7 @@ def arima(x, p,d,q,h):
         ar_term = ps.dot(np.array([ztf[len(zt)-j+i] for j in range(1, p+1)])) 
         ma_term = th.dot([future_residuals[i - j] for j in range(q)]) 
         ztf[len(zt) + i] = ar_term + ma_term
-        fut[i] = y[-1] + np.sum(ztf[len(zt):len(zt) + i + 1])
+        fut[i] = fut[0] + np.sum(ztf[len(zt):len(zt) + i + 1])
         
     return yt, fut
 
