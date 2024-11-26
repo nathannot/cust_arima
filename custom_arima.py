@@ -60,8 +60,7 @@ def arima(x, p,d,q,h):
         SSE = np.sum(e**2)
         like = (n/2)*np.log(2*np.pi)+(n/2)*np.log(s)+(1/(2*s))*SSE
         return like
-    p=2
-    q=2
+    
     init_params = [p*[0],q*[0], np.var(zt)]
     init =  np.hstack(init_params).tolist()
     
