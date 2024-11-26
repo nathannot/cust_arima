@@ -94,6 +94,7 @@ def arima(x, p,d,q,h):
     for t in range(1,len(y)):
         yt[t] = y[t-1] +zt1[t]
 
+    fut = np.zeros(h)
     ztf = np.hstack([zt,np.zeros(h)])
     ztf[-h] = ps.dot(np.array([zt[-i] for i in range(1,p+1)])) +th.dot(np.array([e[-i] for i in range(1,q+1)]))
     fut[0] = y[-1]+ztf[-h]
