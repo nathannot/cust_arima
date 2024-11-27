@@ -101,7 +101,7 @@ def arima(x, p,d,q,h):
     residual_variance = np.var(e) 
     future_residuals = np.random.normal(0, np.sqrt(residual_variance), size=h) 
     ztf[len(zt)] = ps.dot(np.array([zt[-i] for i in range(1,p+1)])) +th.dot(np.array([e[-i] for i in range(1,q+1)]))
-    fut[0] = y[-1]+ztf[len(zt)]+future_residuals[0]
+    fut[0] = y[-1]+ztf[len(zt)]
     
     for i in range(1,h):
         ar_term = ps.dot(np.array([ztf[len(zt)-j+i] for j in range(1, p+1)])) 
